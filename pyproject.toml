@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "heatpro app"
+version = "0.1.0"
+description = "A streamlit app based on heatpro to generate heat load profile"
+authors = ["RobinsonBeaucour <robinson.beaucour@outlook.fr>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.33.0"
+pandas = "^2.2.2"
+plotly = "^5.21.0"
+heatpro = {path = "C:/Users/rb272718/heat-load-profile-generator"}
+pillow = "^10.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
