@@ -8,10 +8,10 @@ from heatpro.temporal_demand import YearlyHeatDemand, HourlyHeatDemand
 
 from backend import DAY_NUMBERS
 
-def process_industry_temporal_demand(yearly_industry_load: YearlyHeatDemand, external_factors: ExternalFactors, weekly_industry_profile:pd.DataFrame) -> HourlyHeatDemand:
+def process_industry_temporal_demand(yearly_industry_load: YearlyHeatDemand, external_factors: ExternalFactors, weekly_industry_profile:pd.DataFrame, month_index: pd.DatetimeIndex) -> HourlyHeatDemand:
     monthly_industry_load = monthly_weighted_disaggregate(
                                                                     yearly_demand=yearly_industry_load,
-                                                                    weights = month_length_proportionnal_weight(pd.date_range('2021',end='2022',freq='MS',inclusive='left'))
+                                                                    weights = month_length_proportionnal_weight(month_index)
                                                                 )
 
     return weekly_weighted_disaggregate(

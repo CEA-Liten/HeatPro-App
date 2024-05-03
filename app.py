@@ -111,7 +111,7 @@ try:
     hourly_residential_load = process_residential_temporal_demand(external_factors,monthly_residential_load,non_heating_temperature,weekly_non_normalized_residential_profile)
 
     yearly_industry_load = YearlyHeatDemand("industry",yearly_industry_consumption)
-    hourly_industry_load = process_industry_temporal_demand(yearly_industry_load,external_factors,weekly_industry_profile)
+    hourly_industry_load = process_industry_temporal_demand(yearly_industry_load,external_factors,weekly_industry_profile,month_index)
 
     yearly_heat_loss_load = YearlyHeatDemand('heat_loss',pd.DataFrame([20_000_000] * len(year_index),columns=[ENERGY_FEATURE_NAME],index=year_index,))
     hourly_heat_loss_load = process_loss_temporal_demand(induced_factors,yearly_heat_loss_load)
