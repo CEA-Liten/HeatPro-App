@@ -6,6 +6,7 @@ from heatpro.district_heating_load import DistrictHeatingLoad
 from heatpro.external_factors import HEATING_SEASON_NAME
 
 def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
+    palette = dict(zip(district_heating.demands.keys(),['rgb(127,179,228,0.6)', 'rgb(254,152,152,0.6)', 'rgb(190,226,253,0.6)', 'rgb(254,212,213,0.6)']))
     fig = go.Figure(
             data=[
                 go.Scatter(
@@ -14,8 +15,10 @@ def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
                     name=sector,
                     stackgroup="positive",
                     line_width=0,
+                    fillcolor=palette[sector],
                 ) for sector, hourly_load in district_heating.demands.items()]
         )
+    
     y_max = float('-inf')
     for trace in fig.data:
         if 'y' in trace:
