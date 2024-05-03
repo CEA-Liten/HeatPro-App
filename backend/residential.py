@@ -35,24 +35,21 @@ def plot_weekly_residential_profile(weekly_non_normalized_residential_profile: p
     
 def generate_default_monthly_building_load(month_index: pd.DatetimeIndex) -> pd.DataFrame:
     return pd.DataFrame(
-                                    50000 * np.concatenate(
-                                                list(np.array([
-                                                            2068,
-                                                            1696,
-                                                            1268,
-                                                            727,
-                                                            609,
-                                                            194,
-                                                            164,
-                                                            177,
-                                                            208,
-                                                            1013,
-                                                            1139,
-                                                            1894,]) 
-                                                     for k in range(len(month_index)//12))
-                                                )[:len(month_index)],
+                                    50000 * np.array([
+                                                        2068,
+                                                        1696,
+                                                        1268,
+                                                        727,
+                                                        609,
+                                                        194,
+                                                        164,
+                                                        177,
+                                                        208,
+                                                        1013,
+                                                        1139,
+                                                        1894,] * (len(month_index)//12))[:len(month_index)],
                                     index = month_index,
-                                    columns=[ENERGY_FEATURE_NAME]
+                                    columns=[ENERGY_FEATURE_NAME]   
                                 )
     
 def generate_default_residential_profile() -> pd.DataFrame:

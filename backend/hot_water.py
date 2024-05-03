@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -43,7 +44,7 @@ def plot_weekly_hot_water_profile(weekly_hot_water_non_normalized: pd.DataFrame)
     
 def generate_monthly_hotwater_profile(month_index: pd.DatetimeIndex) -> pd.DataFrame:
     return pd.DataFrame(        
-                    [1.13,1.11,1.04,1.04,1.0,0.93,0.8,0.74,0.98,1.0,1.09,1.14],
+                    np.array([1.13,1.11,1.04,1.04,1.0,0.93,0.8,0.74,0.98,1.0,1.09,1.14] * (len(month_index)//12))[:len(month_index)],
                     columns=[WEIGHT_NAME_REQUIRED],
                     index=month_index,
                             )
