@@ -20,21 +20,23 @@ def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
     for trace in fig.data:
         if 'y' in trace:
             y_max = max(y_max, max(trace.y))
-    fig.add_annotation(
-        text="Non Heating Season",
-        x=district_heating.external_factors.data[~district_heating.external_factors.data[HEATING_SEASON_NAME]].index.min(),
-        y=y_max*1.1,
-        font = dict(size=14, color='black'),
-        showarrow=False,
-        yanchor="top",
-        xanchor="left",
-    )
-    fig.add_vrect(
-        x0=district_heating.external_factors.data[~district_heating.external_factors.data[HEATING_SEASON_NAME]].index.min(), 
-        x1=district_heating.external_factors.data[~district_heating.external_factors.data[HEATING_SEASON_NAME]].index.max(),
-        line_width=0,
-        fillcolor='orange',
-        opacity=0.5,
-        layer="below",
-        )
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().fillna(False)
+    changing_date = changes[changes == True]
+    for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
+        fig.add_annotation(
+                text="Non Heating Season",
+                x=start,
+                y=y_max*1.1,
+                font = dict(size=14, color='black'),
+                showarrow=False,
+                xanchor="left",
+            )
+        fig.add_vrect(
+            x0=start, 
+            x1=end,
+            line_width=0,
+            fillcolor='orange',
+            opacity=0.5,
+            layer="below",
+            )
     return fig
