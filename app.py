@@ -46,14 +46,25 @@ with st.sidebar:
         ])
     
     with meta_tabs[0]: # ☔ External Factors
-            
-        external_factors_file = st.file_uploader("External Factors CSV")
         
+        col1, col2 = st.columns((2,1))
+        
+        with col1:
+            external_factors_file = st.file_uploader("External Factors CSV")
+            
+        with col2:
+            default_dataset = st.toggle("Use demo dataset")
+            
+        if default_dataset:
+            external_factors = ExternalFactors(pd.read_csv("./data/external_factors.csv",index_col=0,parse_dates=True))
+            month_index = external_factors.data.resample('MS').sum().index
+            year_index = external_factors.data.resample('YS').sum().index
+            
         if external_factors_file is not None:
             external_factors = ExternalFactors(pd.read_csv(external_factors_file,index_col=0,parse_dates=True))
             month_index = external_factors.data.resample('MS').sum().index
             year_index = external_factors.data.resample('YS').sum().index
-            
+               
         st.subheader("Temperature Departure")
         T_departure = fc.set_temperature_departure_board()
         st.subheader("Temperature Return")
