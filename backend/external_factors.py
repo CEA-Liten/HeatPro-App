@@ -22,8 +22,8 @@ def plot_external_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                         y=-0.1,         
                             )
                 )
-    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().fillna(False)
-    changing_date = changes[changes == True]
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
+    changing_date = changes[changes == True][1:]
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
                 text="Non Heating Season",
@@ -78,8 +78,8 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                                 )
             )
         
-    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().fillna(False)
-    changing_date = changes[changes == True]
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
+    changing_date = changes[changes == True][1:]
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
                 text="Non Heating Season",

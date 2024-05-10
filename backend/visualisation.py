@@ -23,8 +23,8 @@ def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
     for trace in fig.data:
         if 'y' in trace:
             y_max = max(y_max, max(trace.y))
-    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().fillna(False)
-    changing_date = changes[changes == True]
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
+    changing_date = changes[changes == True][1:]
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
                 text="Non Heating Season",
