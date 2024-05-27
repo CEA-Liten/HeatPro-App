@@ -9,10 +9,10 @@ def plot_monthly_building_load(monthly_building_load_df: pd.DataFrame) -> go.Fig
                 go.Scatter(
                     x = monthly_building_load_df.index,
                     y = monthly_building_load_df[ENERGY_FEATURE_NAME],
-                    name = "Residential heat demand including hot water",
+                    name = "Residential heat demand (space heating + domestic hot water)",
                 ),
                 layout_yaxis_title = "<b>kWh</b>",
-                layout_title_text = "Residential heat demand including hot water"
+                layout_title_text = "Residential heat demand (space heating + domestic hot water)"
             )
     
 def plot_weekly_residential_profile(weekly_non_normalized_residential_profile: pd.DataFrame) -> go.Figure:
@@ -20,10 +20,10 @@ def plot_weekly_residential_profile(weekly_non_normalized_residential_profile: p
                 go.Scatter(
                     x = weekly_non_normalized_residential_profile.index,
                     y = weekly_non_normalized_residential_profile[WEIGHT_NAME_REQUIRED],
-                    name = "Residential heat demand profile",
+                    name = "Space heating demand profile",
                 ),
                 layout_yaxis_title = "<b></b>",
-                layout_title_text = "Residential heat demand weekly profile"
+                layout_title_text = "Space heating demand weekly profile"
             )
     fig.add_vline(x=24, line_color="rgba(0, 0, 0, 0.5)")\
         .add_vline(x=24*2, line_color="rgba(0, 0, 0, 0.5)")\

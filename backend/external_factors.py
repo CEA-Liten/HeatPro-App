@@ -9,8 +9,9 @@ def plot_external_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
             go.Scatter(
                 x = district_heating.external_factors.data.index,
                 y = district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME],
-                name = 'External Temperature',
-                showlegend=True
+                name = 'Outside Temperature',
+                # marker_color="#5C5C5C ",
+                showlegend=True,
             ),
             ],
             layout_title_text="External Factors",

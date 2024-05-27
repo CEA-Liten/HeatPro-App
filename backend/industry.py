@@ -8,7 +8,7 @@ def plot_weekly_industry_profile(weekly_industry_non_normalized: pd.DataFrame) -
                 go.Scatter(
                     x = weekly_industry_non_normalized.index,
                     y = weekly_industry_non_normalized[WEIGHT_NAME_REQUIRED],
-                    name = "Residential heat demand including hot water",
+                    name = "Industry heat demand",
                 ),
                 layout_yaxis_title = "<b></b>",
                 layout_title_text = "Hot water sociological consumption profile"

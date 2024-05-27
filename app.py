@@ -75,11 +75,12 @@ with st.sidebar:
             month_index = external_factors.data.resample('MS').sum().index
             year_index = external_factors.data.resample('YS').sum().index
                
-        st.subheader("Temperature Departure")
+        st.subheader("Supply Temperature")
         T_departure = fc.set_temperature_departure_board()
-        st.subheader("Temperature Return")
-        T_return = fc.set_temperature_return_board() 
-        st.subheader("Temperature difference")
+        # TODO : graphique
+        st.subheader("Return Temperature")
+        T_return = fc.set_temperature_return_board()
+        # TODO : graphique 
         delta_temperature = fc.set_temperature_difference_board()
         
                     
@@ -123,6 +124,7 @@ with st.sidebar:
         st.header("Yearly Heat Demand")
         try:
             yearly_industry_consumption = st.data_editor(ind.generate_default_yearly_industry_demand(year_index))
+            st.subheader("Industry heat demand weekly profile")
             weekly_industry_profile = st.data_editor(ind.generate_weekly_industry_profile())
             st.plotly_chart(ind.plot_weekly_industry_profile(weekly_industry_profile),use_container_width=True)
         except NameError:
