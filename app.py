@@ -82,6 +82,9 @@ with st.sidebar:
         T_return = fc.set_temperature_return_board()
         # TODO : graphique 
         delta_temperature = fc.set_temperature_difference_board()
+        st.subheader("Heat Loss")
+        loss_percentage = st.number_input(value=6.,label="Share of all sectors demand heat demand (%)")/100
+        loss_included = st.toggle("Heat loss are already included in total heat demand")
         
                     
     with meta_tabs[1]: # 🏘️ Residential
@@ -136,17 +139,22 @@ with st.sidebar:
 try:
     induced_factors = calculate_induced_factors(external_factors,T_departure,T_return,soil)
     
-    monthly_building_load = MonthlyHeatDemand("residential",monthly_building_load_df)
+    monthly_building_load = MonthlyHeatDemand("residential",monthly_building_load_df*(1-loss_percentage*loss_included))
     
     hourly_hot_water_load = process_hot_water_temporal_demand(monthly_building_load,monthly_hot_water_profile,weekly_hot_water_non_normalized,external_factors,hot_water)
     
     monthly_residential_load = MonthlyHeatDemand('building',(monthly_building_load.data - hourly_hot_water_load.data.resample('MS').sum()))
     hourly_residential_load = process_residential_temporal_demand(external_factors,monthly_residential_load,non_heating_temperature,weekly_non_normalized_residential_profile)
 
-    yearly_industry_load = YearlyHeatDemand("industry",yearly_industry_consumption)
+    yearly_industry_load = YearlyHeatDemand("industry",yearly_industry_consumption*(1-loss_percentage*loss_included))
     hourly_industry_load = process_industry_temporal_demand(yearly_industry_load,external_factors,weekly_industry_profile,month_index)
 
-    yearly_heat_loss_load = YearlyHeatDemand('heat_loss',pd.DataFrame([20_000_000] * len(year_index),columns=[ENERGY_FEATURE_NAME],index=year_index,))
+    st.write()
+
+    yearly_heat_loss_load = YearlyHeatDemand(
+        'heat_loss',
+        (monthly_building_load_df[[ENERGY_FEATURE_NAME]].resample("YS").sum() + yearly_industry_consumption[[ENERGY_FEATURE_NAME]].resample("YS").sum())*loss_percentage)
+    
     hourly_heat_loss_load = process_loss_temporal_demand(induced_factors,yearly_heat_loss_load)
 
     district_heating = DistrictHeatingLoad(
@@ -161,8 +169,8 @@ try:
                                 delta_temperature=delta_temperature,
                                 cp=soil.capacity,
                             )
-    if st.button("Fit District Heating Temperature"):
-        district_heating.fit()
+    district_heating.fit()
+    
 except NameError:
     district_heating = None
 
