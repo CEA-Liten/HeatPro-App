@@ -16,7 +16,11 @@ import backend.soil as sl
 from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand
 from backend.visualisation import plot_generated_load
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    page_title="HeatPro App",
+    layout="wide",
+    page_icon="♨️",
+    )
 st.markdown(
     """
     <style>
