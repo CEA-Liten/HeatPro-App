@@ -35,7 +35,14 @@ with open('logo/heatpro_app_logo.txt', 'r') as f:
     heatpro_app_logo = f.read()
 st.markdown(heatpro_app_logo,unsafe_allow_html=True)
 st.markdown("<h3>Streamlit App based on <a href='https://github.com/CEA-Liten/HeatPro'>HeatPro</a></h3>", unsafe_allow_html=True)
-
+with st.expander("Description",expanded=True):
+        st.markdown("""
+                    The present application finds its roots in the need of using representative heating load curve for the simulation 
+                    and optimization of various District Heating Network (DHN) production plant.
+                    **The main principle is to disagreggate monthly or yearly heat load into an hourly heat load 
+                    using an hourly based external temperature 
+                    profile.** The resulting load curve also includes DHN supply and return temperatures.""")
+        
 with st.sidebar:
     with open('logo/CEA_LITEN_logo.txt', 'r') as f:
         cea_logo = f.read()
