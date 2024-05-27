@@ -51,9 +51,8 @@ with st.sidebar:
     meta_tabs = st.tabs([
             "☔ Factors",
             "🏘️ Residential",
-            "♨️ Hot Water",
             "🏭 Industry",
-            "🌍 Soil",
+            "🌍 Ground",
         ])
     
     with meta_tabs[0]: # ☔ External Factors
@@ -85,32 +84,42 @@ with st.sidebar:
         
                     
     with meta_tabs[1]: # 🏘️ Residential
-        non_heating_temperature = st.number_input("Non-Heating Temperature",value=18.)
-        
-        st.subheader("Monthly Heat Demand including Hot Water")
-        try:
-            monthly_building_load_df = st.data_editor(res.generate_default_monthly_building_load(month_index))
-            st.plotly_chart(res.plot_monthly_building_load(monthly_building_load_df),use_container_width=True)
+        meta_tabs_res = st.tabs([
+            "➕ Total Demand",
+            "🏘️ Space Heating",
+            "♨️ Domestic Hot Water",
+        ])
+        with meta_tabs_res[0]: # ➕ Total Demand
+            st.subheader("Monthly Heat Demand (Space Heating + Domestic Hot Water)")
+            try:
+                monthly_building_load_df = st.data_editor(res.generate_default_monthly_building_load(month_index))
+                st.plotly_chart(res.plot_monthly_building_load(monthly_building_load_df),use_container_width=True)
+            except NameError:
+                st.write("☔ External Factors not received")
+            
+        with meta_tabs_res[1]: # 🏘️ Space Heating
+            non_heating_temperature = T_departure.ext_mid
+            st.subheader("Space heating")
             weekly_non_normalized_residential_profile = st.data_editor(res.generate_default_residential_profile())
             st.plotly_chart(res.plot_weekly_residential_profile(weekly_non_normalized_residential_profile),use_container_width=True)
-        except NameError:
-            st.write("☔ External Factors not received")
+
+            
+        with meta_tabs_res[2]: # ♨️ Domestic Hot Water
+            hot_water = hw.set_hot_water_config()
+            st.subheader("Monthly Sociological Hot Water Profile")
+            
+            try:
+                monthly_hotwater_non_normalized = st.data_editor(hw.generate_monthly_hotwater_profile(month_index))
+                st.plotly_chart(hw.plot_monthly_hotwater_profile(monthly_hotwater_non_normalized),use_container_width=True)
+                
+                st.subheader("Hot Water demand weekly profile")
+                weekly_hot_water_non_normalized = st.data_editor(hw.generate_weekly_hotwater_profile())
+                st.plotly_chart(hw.plot_weekly_hot_water_profile(weekly_hot_water_non_normalized),use_container_width=True)
+                monthly_hot_water_profile = monthly_hotwater_non_normalized / monthly_hotwater_non_normalized.sum()
+            except NameError:
+                st.write("☔ External Factors not received")
         
-    with meta_tabs[2]: # ♨️ Hot Water
-        hot_water = hw.set_hot_water_config()
-        st.subheader("Monthly Sociological Hot Water Profile")
-        
-        try:
-            monthly_hotwater_non_normalized = st.data_editor(hw.generate_monthly_hotwater_profile(month_index))
-            st.plotly_chart(hw.plot_monthly_hotwater_profile(monthly_hotwater_non_normalized),use_container_width=True)
-            weekly_hot_water_non_normalized = st.data_editor(hw.generate_weekly_hotwater_profile())
-            st.plotly_chart(hw.plot_weekly_hot_water_profile(weekly_hot_water_non_normalized),use_container_width=True)
-        
-            monthly_hot_water_profile = monthly_hotwater_non_normalized / monthly_hotwater_non_normalized.sum()
-        except NameError:
-            st.write("☔ External Factors not received")
-        
-    with meta_tabs[3]: # 🏭 Industry
+    with meta_tabs[2]: # 🏭 Industry
         st.header("Yearly Heat Demand")
         try:
             yearly_industry_consumption = st.data_editor(ind.generate_default_yearly_industry_demand(year_index))
@@ -119,7 +128,7 @@ with st.sidebar:
         except NameError:
             st.write("☔ External Factors not received")
         
-    with meta_tabs[4]: # 🌍 Soil
+    with meta_tabs[3]: # 🌍 Ground
         soil = sl.set_soil_temperature_board()
         
 try:
