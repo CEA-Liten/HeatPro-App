@@ -11,7 +11,7 @@ def plot_weekly_industry_profile(weekly_industry_non_normalized: pd.DataFrame) -
                     name = "Industry heat demand",
                 ),
                 layout_yaxis_title = "<b></b>",
-                layout_title_text = "Hot water sociological consumption profile"
+                layout_title_text = "Industry heat demand weekly profile"
             )
     fig.add_vline(x=24, line_color="rgba(0, 0, 0, 0.5)")\
         .add_vline(x=24*2, line_color="rgba(0, 0, 0, 0.5)")\
