@@ -77,11 +77,11 @@ with st.sidebar:
                
         st.subheader("Supply Temperature")
         T_departure = fc.set_temperature_departure_board()
-        # TODO : graphique
+        st.plotly_chart(fc.plot_supply_temperature(T_departure),use_container_width=True)
         st.subheader("Return Temperature")
         T_return = fc.set_temperature_return_board()
-        # TODO : graphique 
         delta_temperature = fc.set_temperature_difference_board()
+        
         st.subheader("Heat Loss")
         loss_percentage = st.number_input(value=6.,label="Share of all sectors demand heat demand (%)")/100
         loss_included = st.toggle("Heat loss are already included in total heat demand")
