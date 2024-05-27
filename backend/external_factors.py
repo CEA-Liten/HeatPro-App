@@ -51,7 +51,7 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                     go.Scatter(
                         x = district_heating.district_network_temperature.index,
                         y = district_heating.district_network_temperature["departure_temperature"],
-                        name="Departure Temperature",
+                        name="Supply Temperature",
                         marker_color = "#FF4343",
                     ),
                     go.Scatter(
@@ -69,7 +69,7 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                     go.Scatter(
                         x = district_heating.district_network_temperature.index,
                         y = district_heating.district_network_temperature["soil_temperature"],
-                        name="Soil Temperature",
+                        name="Ground Temperature",
                         marker_color="#A52A2A",
                     ),
                 ],
