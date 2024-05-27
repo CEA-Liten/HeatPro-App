@@ -189,4 +189,10 @@ with st.expander("Generated Load",expanded=True):
     else:
         st.write("☔ External Factors not received")
         
+with st.expander("Data",expanded=False):
+    if district_heating:  
+            st.dataframe(district_heating.data)
+    else:
+        st.write("☔ External Factors not received")
+        
 
