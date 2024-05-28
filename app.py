@@ -40,7 +40,7 @@ with st.expander("Description",expanded=True):
                     The present application finds its roots in the need of using representative heating load curve for the simulation 
                     and optimization of various District Heating Network (DHN) production plant.
                     **The main principle is to disagreggate monthly or yearly heat load into an hourly heat load 
-                    using an hourly based external temperature 
+                    using an hourly based outside temperature 
                     profile.** The resulting load curve also includes DHN supply and return temperatures.""")
         
 with st.sidebar:
