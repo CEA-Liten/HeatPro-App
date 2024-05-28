@@ -13,8 +13,10 @@ import backend.industry as ind
 import backend.residential as res
 import backend.hot_water as hw
 import backend.soil as sl
-from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand
+from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand, ending_dataframe
 from backend.visualisation import plot_generated_load
+
+WATER_HEAT_CAPACITY = 1.162 # kWh/m^3/K
 
 st.set_page_config(
     page_title="HeatPro App",
@@ -172,7 +174,7 @@ try:
                                 external_factors=external_factors,
                                 district_network_temperature=induced_factors,
                                 delta_temperature=delta_temperature,
-                                cp=soil.capacity,
+                                cp=WATER_HEAT_CAPACITY,
                             )
     district_heating.fit()
     
@@ -195,8 +197,8 @@ with st.expander("Generated Load",expanded=True):
         st.write("☔ External Factors not received")
         
 with st.expander("Data",expanded=False):
-    if district_heating:  
-            st.dataframe(district_heating.data)
+    if district_heating: 
+            st.dataframe(ending_dataframe(district_heating,WATER_HEAT_CAPACITY))
     else:
         st.write("☔ External Factors not received")
         
