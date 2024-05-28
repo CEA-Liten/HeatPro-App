@@ -8,9 +8,16 @@ from heatpro.check import WEIGHT_NAME_REQUIRED
 from config import HotWater
 
 def set_hot_water_config() -> HotWater:
-    temperature_hot_water = st.number_input("Hot water temperature (°C)", value=60.)
-    simultaneity = st.number_input("Simultaneity", value=0.2, help="If equals to 0 demand is flat.")
-    sanitary_loop_coef = st.number_input("Domestic hot water loop part", value=0.3)
+    help_simultaneity="""
+    The simultaneity coefficient S represents the asynchrony of domestic hot water drawings.
+
+    When this coefficient is equal to 1, there is no excess and the daily energy due to domestic hot water is therefore redistributed according to the standardized profile entered by the user.
+
+    When this coefficient is equal to 0, there is total abundance and the daily energy due to domestic hot water is redistributed equitably for each moment of the day
+    """
+    temperature_hot_water = st.number_input("Domestic hot water temperature (°C)", value=60.)
+    simultaneity = st.number_input("Simultaneity coefficient", value=0.2, help=help_simultaneity)
+    sanitary_loop_coef = st.number_input("Domestic hot water loop part (%)", value=30)/100
     return HotWater(temperature_hot_water,simultaneity,sanitary_loop_coef)
 
 def plot_monthly_hotwater_profile(monthly_hotwater_non_normalized: pd.DataFrame) -> go.Figure:
