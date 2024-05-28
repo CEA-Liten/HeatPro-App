@@ -57,15 +57,20 @@ with st.sidebar:
     
     with meta_tabs[0]: # ☔ External Factors
         
-        col1, col2 = st.columns((2,1))
+        col1, col2 = st.columns((1.5,1))
         
         with col1:
             external_factors_file = st.file_uploader("External Factors CSV")
             
         with col2:
-            default_dataset = st.toggle("Use demo dataset")
-            
-        if default_dataset:
+            default_dataset = st.radio("Activate demo ?",["No demo","One year demo","Two year demo"])
+         
+        if default_dataset == "One year demo":
+            external_factors = ExternalFactors(pd.read_csv("./data/external_factors.csv",index_col=0,parse_dates=True).iloc[:8760])
+            month_index = external_factors.data.resample('MS').sum().index
+            year_index = external_factors.data.resample('YS').sum().index
+               
+        if default_dataset == "Two year demo":
             external_factors = ExternalFactors(pd.read_csv("./data/external_factors.csv",index_col=0,parse_dates=True))
             month_index = external_factors.data.resample('MS').sum().index
             year_index = external_factors.data.resample('YS').sum().index
