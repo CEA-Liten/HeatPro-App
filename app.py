@@ -110,20 +110,20 @@ with st.sidebar:
             
         with meta_tabs_res[1]: # 🏘️ Space Heating
             non_heating_temperature = T_departure.ext_mid
-            st.subheader("Space heating")
+            st.subheader("Space heating demand weekly profile")
             weekly_non_normalized_residential_profile = st.data_editor(res.generate_default_residential_profile())
             st.plotly_chart(res.plot_weekly_residential_profile(weekly_non_normalized_residential_profile),use_container_width=True)
 
             
         with meta_tabs_res[2]: # ♨️ Domestic Hot Water
             hot_water = hw.set_hot_water_config()
-            st.subheader("Monthly Sociological Hot Water Profile")
+            st.subheader("Monthly Sociological Domestic Hot Water Profile")
             
             try:
                 monthly_hotwater_non_normalized = st.data_editor(hw.generate_monthly_hotwater_profile(month_index))
                 st.plotly_chart(hw.plot_monthly_hotwater_profile(monthly_hotwater_non_normalized),use_container_width=True)
                 
-                st.subheader("Hot Water demand weekly profile")
+                st.subheader("Domestic Hot Water demand weekly profile")
                 weekly_hot_water_non_normalized = st.data_editor(hw.generate_weekly_hotwater_profile())
                 st.plotly_chart(hw.plot_weekly_hot_water_profile(weekly_hot_water_non_normalized),use_container_width=True)
                 monthly_hot_water_profile = monthly_hotwater_non_normalized / monthly_hotwater_non_normalized.sum()
@@ -196,8 +196,9 @@ with st.expander("Generated Load",expanded=True):
     else:
         st.write("☔ External Factors not received")
         
-with st.expander("Data",expanded=False):
-    if district_heating: 
+with st.expander("Data",expanded=True):
+    if district_heating:
+            st.markdown("you can export as a CSV file using button on top right of the table") 
             st.dataframe(ending_dataframe(district_heating,WATER_HEAT_CAPACITY))
     else:
         st.write("☔ External Factors not received")

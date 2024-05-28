@@ -21,13 +21,14 @@ def plot_external_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                         yanchor="top",  
                         xanchor="left", 
                         y=-0.1,         
-                            )
+                            ),
+            layout_hovermode='x unified',
                 )
     changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
-    changing_date = changes[changes == True][1:]
+    changing_date = pd.concat((changes[changes == True],changes.tail(1)))
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
-                text="Non Heating Season",
+                text="Heating Season",
                 x=start,
                 y=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME].min(),
                 font = dict(size=14, color='black'),
@@ -38,7 +39,7 @@ def plot_external_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
             x0=start, 
             x1=end,
             line_width=0,
-            fillcolor='orange',
+            fillcolor='green',
             opacity=0.5,
             layer="below",
             )
@@ -80,14 +81,15 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                             yanchor="top",  
                             xanchor="left", 
                             y=-0.1,         
-                                )
+                                ),
+                layout_hovermode='x unified',
             )
         
     changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
-    changing_date = changes[changes == True][1:]
+    changing_date = pd.concat((changes[changes == True],changes.tail(1)))
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
-                text="Non Heating Season",
+                text="Heating Season",
                 x=start,
                 y=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME].min(),
                 font = dict(size=14, color='black'),
@@ -98,7 +100,7 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
             x0=start, 
             x1=end,
             line_width=0,
-            fillcolor='orange',
+            fillcolor='green',
             opacity=0.5,
             layer="below",
             )

@@ -9,8 +9,8 @@ from config import HotWater
 
 def set_hot_water_config() -> HotWater:
     temperature_hot_water = st.number_input("Hot water temperature (°C)", value=60.)
-    simultaneity = st.number_input("Simultaneity", value=0.2)
-    sanitary_loop_coef = st.number_input("Sanitary loop part", value=0.3)
+    simultaneity = st.number_input("Simultaneity", value=0.2, help="If equals to 0 demand is flat.")
+    sanitary_loop_coef = st.number_input("Domestic hot water loop part", value=0.3)
     return HotWater(temperature_hot_water,simultaneity,sanitary_loop_coef)
 
 def plot_monthly_hotwater_profile(monthly_hotwater_non_normalized: pd.DataFrame) -> go.Figure:
@@ -21,7 +21,7 @@ def plot_monthly_hotwater_profile(monthly_hotwater_non_normalized: pd.DataFrame)
                     name = "Residential heat demand including hot water",
                 ),
                 layout_yaxis_title = "<b></b>",
-                layout_title_text = "Hot water sociological consumption profile"
+                layout_title_text = "Domestic Hot water sociological consumption profile"
             )
     
 def plot_weekly_hot_water_profile(weekly_hot_water_non_normalized: pd.DataFrame) -> go.Figure:
@@ -29,10 +29,10 @@ def plot_weekly_hot_water_profile(weekly_hot_water_non_normalized: pd.DataFrame)
                 go.Scatter(
                     x = weekly_hot_water_non_normalized.index,
                     y = weekly_hot_water_non_normalized[WEIGHT_NAME_REQUIRED],
-                    name = "Hot water demand profile",
+                    name = "Domestic hoy water demand profile",
                 ),
                 layout_yaxis_title = "<b></b>",
-                layout_title_text = "Hot Water demand weekly profile"
+                layout_title_text = "Domestic Hot Water demand weekly profile"
             )
     fig.add_vline(x=24, line_color="rgba(0, 0, 0, 0.5)")\
         .add_vline(x=24*2, line_color="rgba(0, 0, 0, 0.5)")\
