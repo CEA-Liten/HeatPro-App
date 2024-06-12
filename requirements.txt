@@ -1,0 +1,4 @@
+git+https://github.com/CEA-Liten/HeatPro.git@public
+streamlit
+pandas
+plotly
