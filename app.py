@@ -1,5 +1,4 @@
 import pandas as pd
-import plotly.graph_objects as go
 import streamlit as st
 
 from heatpro.check import ENERGY_FEATURE_NAME
@@ -156,8 +155,6 @@ try:
     yearly_industry_load = YearlyHeatDemand("industry",yearly_industry_consumption*(1-loss_percentage*loss_included))
     hourly_industry_load = process_industry_temporal_demand(yearly_industry_load,external_factors,weekly_industry_profile,month_index)
 
-    st.write()
-
     yearly_heat_loss_load = YearlyHeatDemand(
         'heat_loss',
         (monthly_building_load_df[[ENERGY_FEATURE_NAME]].resample("YS").sum() + yearly_industry_consumption[[ENERGY_FEATURE_NAME]].resample("YS").sum())*loss_percentage)
@@ -198,6 +195,8 @@ with st.expander("Generated Load",expanded=True):
         
 with st.expander("Data",expanded=True):
     if district_heating:
+            # st.write(district_heating.data[["hot_water_thermal_energy_kWh","building_thermal_energy_kWh"]].sum(axis=1).resample("MS").sum())
+            # st.write(district_heating.data[["heat_loss_thermal_energy_kWh"]].resample("MS").sum())
             st.markdown("you can export as a CSV file using button on top right of the table") 
             st.dataframe(ending_dataframe(district_heating,WATER_HEAT_CAPACITY))
     else:
