@@ -10,8 +10,16 @@ To run the app we recommend to use Poetry :
 pip install poetry
 ```
 
-Then you only need enter this command :
+Then you only need enter these commands :
 
 ```
+poetry install
+```
+```
 poetry run streamlit run app.py
+```
+
+If needed use before `poetry install`:
+```
+poetry lock
 ```
