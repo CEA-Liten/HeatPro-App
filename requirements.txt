@@ -1,4 +1,4 @@
-git+https://github.com/CEA-Liten/HeatPro.git@public
+heatpro
 streamlit
 pandas
 plotly
