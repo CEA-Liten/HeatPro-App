@@ -24,7 +24,7 @@ def plot_external_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                             ),
             layout_hovermode='x unified',
                 )
-    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool)
     changing_date = pd.concat((changes[changes == True],changes.tail(1)))
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
@@ -85,7 +85,7 @@ def plot_induced_factors(district_heating: DistrictHeatingLoad) -> go.Figure:
                 layout_hovermode='x unified',
             )
         
-    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool).fillna(False)
+    changes = district_heating.external_factors.data[HEATING_SEASON_NAME].diff().astype(bool)
     changing_date = pd.concat((changes[changes == True],changes.tail(1)))
     for start, end in zip(changing_date[::2].index,changing_date[1::2].index):
         fig.add_annotation(
