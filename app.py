@@ -14,6 +14,7 @@ import backend.hot_water as hw
 import backend.soil as sl
 from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand, ending_dataframe
 from backend.visualisation import plot_generated_load
+from backend.monotone import plot_monotone
 
 WATER_HEAT_CAPACITY = 1.162 # kWh/m^3/K
 
@@ -193,6 +194,15 @@ with st.expander("Generated Load",expanded=True):
     else:
         st.write("☔ External Factors not received")
         
+# Expander with heat monotone plot
+with st.expander("Heat monotone",expanded=True):
+    if district_heating:  
+        
+        st.plotly_chart(plot_monotone(district_heating),use_container_width=True)
+    else:
+        st.write("☔ External Factors not received")
+
+
 with st.expander("Data",expanded=True):
     if district_heating:
             # st.write(district_heating.data[["hot_water_thermal_energy_kWh","building_thermal_energy_kWh"]].sum(axis=1).resample("MS").sum())
