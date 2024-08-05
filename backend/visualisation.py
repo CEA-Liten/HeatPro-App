@@ -40,7 +40,7 @@ def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
                 text="Heating Season",
                 x=start,
                 y=y_max*1.1,
-                font = dict(size=14, color='black'),
+                font = dict(size=14, color='green'),
                 showarrow=False,
                 xanchor="left",
             )
@@ -48,7 +48,7 @@ def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
             x0=start, 
             x1=end,
             line_width=0,
-            fillcolor='green',
+            fillcolor="rgb(108, 150, 116)",
             opacity=0.5,
             layer="below",
             )
