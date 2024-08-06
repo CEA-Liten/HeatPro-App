@@ -9,11 +9,18 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
     """Plot the heat monotone corresponding to the heat demand"""
     palette = dict(zip(district_heating.demands.keys(),['rgb(127,179,228,0.6)', 'rgb(254,152,152,0.6)', 'rgb(190,226,253,0.6)', 'rgb(254,212,213,0.6)']))
     names = dict(zip(district_heating.demands.keys(),['Domestic Hot Water', 'Industry', 'Heat Loss', 'Space Heating']))
+    #sort index 
+    sorted_index=pd.concat(
+        (
+            hourly_load[ENERGY_FEATURE_NAME] for hourly_load in district_heating.demands.values()
+        ), axis=1, ignore_index=True
+    ).sum(1).sort_values(ascending=False).index
+    # Create plot
     fig = go.Figure(
             data=[
                 go.Scatter(
                     x = [i/len(hourly_load.index)*100 for i in range(len(hourly_load.index))],
-                    y = hourly_load[ENERGY_FEATURE_NAME].sort_values(ascending=False).reset_index(drop=True),
+                    y = hourly_load[ENERGY_FEATURE_NAME].reindex(sorted_index),
                     name=names[sector],
                     stackgroup="positive",
                     line_width=0,
