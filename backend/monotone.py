@@ -12,7 +12,7 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
     fig = go.Figure(
             data=[
                 go.Scatter(
-                    x = [i for i in range(0,24*365)],
+                    x = [i for i in range(len(hourly_load.index))],
                     y = hourly_load[ENERGY_FEATURE_NAME].sort_values(ascending=False).reset_index(drop=True),
                     name=names[sector],
                     stackgroup="positive",
