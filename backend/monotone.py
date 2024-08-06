@@ -30,36 +30,4 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
                             ),
             layout_hovermode='x unified',
         )
-    # Calculate max y
-    y_max = float('-inf')
-    for trace in fig.data:
-        if 'y' in trace:
-            y_max = max(y_max, max(trace.y))
-    # Color Heating season
-    # Calculate changes in heating Season status        
-    changes = sorted(district_heating.external_factors.data[HEATING_SEASON_NAME],reverse=True)
-    # Find the index where it changes from True to False
-    change_index = None
-    for i, value in enumerate(changes):
-        if  not value:  # if value is False
-            change_index = i
-            break
-    # Add annotation of the period
-    fig.add_annotation(
-            text="Heating season",
-            x=0,
-            y=y_max*1.1,
-            font = dict(size=14, color='green'),
-            showarrow=False,
-            xanchor="left",
-        )
-    # Add a rectangle representing the period
-    fig.add_vrect(
-        x0=0, 
-        x1=change_index,
-        line_width=0,
-        fillcolor="rgb(108, 150, 116)",
-        opacity=0.5,
-        layer="below",
-        )
     return fig
