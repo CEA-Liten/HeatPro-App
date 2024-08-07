@@ -191,16 +191,10 @@ with st.expander("Generated Load",expanded=True):
     if district_heating:  
         
         st.plotly_chart(plot_generated_load(district_heating),use_container_width=True)
-    else:
-        st.write("☔ External Factors not received")
-        
-# Expander with heat monotone plot
-with st.expander("Heat monotone",expanded=True):
-    if district_heating:  
-        
         st.plotly_chart(plot_monotone(district_heating),use_container_width=True)
     else:
         st.write("☔ External Factors not received")
+        
 
 
 with st.expander("Data",expanded=True):
