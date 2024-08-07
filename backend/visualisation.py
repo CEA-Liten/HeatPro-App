@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 
 from heatpro.check import ENERGY_FEATURE_NAME
 from heatpro.district_heating_load import DistrictHeatingLoad
-from heatpro.external_factors import HEATING_SEASON_NAME
+from heatpro.external_factors import HEATING_SEASON_NAME, EXTERNAL_TEMPERATURE_NAME
 
 def plot_generated_load(district_heating: DistrictHeatingLoad) -> go.Figure:
     palette = dict(zip(district_heating.demands.keys(),['rgb(127,179,228,0.6)', 'rgb(254,152,152,0.6)', 'rgb(190,226,253,0.6)', 'rgb(254,212,213,0.6)']))
@@ -86,4 +86,29 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
                             ),
             layout_hovermode='x unified',
         )
+    return fig
+
+def plot_energy_temp(district_heating: DistrictHeatingLoad) -> go.Figure:
+    fig = go.Figure(
+                data=[
+                    go.Scatter(
+                        x  = district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME],
+                        y =  pd.concat (
+                            (hourly_load[ENERGY_FEATURE_NAME] for hourly_load in district_heating.demands.values()), 
+                            axis=1, ignore_index=True
+                            ).sum(1),
+                        marker_color = "#FF4343",
+                    ),
+                    ],
+                layout_title_text="Temperature effect on demand",
+                layout_yaxis_title='<b>Demand (kW)</b>',
+                layout_xaxis_title='<b>Outside temperature (°C)</b>',
+                layout_legend=dict(
+                            orientation="h",
+                            yanchor="top",  
+                            xanchor="left", 
+                            y=-0.1,         
+                                ),
+                layout_hovermode='x unified',
+            )
     return fig

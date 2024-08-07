@@ -13,7 +13,7 @@ import backend.residential as res
 import backend.hot_water as hw
 import backend.soil as sl
 from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand, ending_dataframe
-from backend.visualisation import plot_generated_load, plot_monotone
+from backend.visualisation import plot_generated_load, plot_monotone, plot_energy_temp
 
 
 WATER_HEAT_CAPACITY = 1.162 # kWh/m^3/K
@@ -203,6 +203,7 @@ with st.expander("Data",expanded=True):
             # st.write(district_heating.data[["heat_loss_thermal_energy_kWh"]].resample("MS").sum())
             st.markdown("you can export as a CSV file using button on top right of the table") 
             st.dataframe(ending_dataframe(district_heating,WATER_HEAT_CAPACITY))
+            st.write(plot_energy_temp(district_heating))
     else:
         st.write("☔ External Factors not received")
         
