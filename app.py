@@ -13,8 +13,8 @@ import backend.residential as res
 import backend.hot_water as hw
 import backend.soil as sl
 from backend.pipeline import calculate_induced_factors, process_hot_water_temporal_demand, process_residential_temporal_demand, process_industry_temporal_demand, process_loss_temporal_demand, ending_dataframe
-from backend.visualisation import plot_generated_load
-from backend.monotone import plot_monotone
+from backend.visualisation import plot_generated_load, plot_monotone
+
 
 WATER_HEAT_CAPACITY = 1.162 # kWh/m^3/K
 
