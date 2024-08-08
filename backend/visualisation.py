@@ -97,7 +97,9 @@ def plot_energy_temp(district_heating: DistrictHeatingLoad) -> go.Figure:
                             (hourly_load[ENERGY_FEATURE_NAME] for hourly_load in district_heating.demands.values()), 
                             axis=1, ignore_index=True
                             ).sum(1),
-                        marker_color = "#FF4343",
+                        marker_color = "#0d75c2",
+                        mode="markers",
+                        marker_size = 5,
                     ),
                     ],
                 layout_title_text="Temperature effect on demand",
