@@ -88,29 +88,58 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
         )
     return fig
 
-def plot_energy_temp(district_heating: DistrictHeatingLoad) -> go.Figure:
-    fig = go.Figure(
-                data=[
-                    go.Scatter(
-                        x  = district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME],
-                        y =  pd.concat (
-                            (hourly_load[ENERGY_FEATURE_NAME] for hourly_load in district_heating.demands.values()), 
-                            axis=1, ignore_index=True
-                            ).sum(1),
-                        marker_color = "#0d75c2",
-                        mode="markers",
-                        marker_size = 5,
-                    ),
-                    ],
-                layout_title_text="Temperature effect on demand",
-                layout_yaxis_title='<b>Demand (kW)</b>',
-                layout_xaxis_title='<b>Outside temperature (°C)</b>',
-                layout_legend=dict(
-                            orientation="h",
-                            yanchor="top",  
-                            xanchor="left", 
-                            y=-0.1,         
-                                ),
-                layout_hovermode='x unified',
-            )
+def plot_demand_vs_outside_temperature(district_heating: DistrictHeatingLoad) -> go.Figure:
+    """Plot a scatter figure of demand versus outside temperature"""
+    
+    # Extracting data
+    demand = pd.concat(
+        (hourly_load[ENERGY_FEATURE_NAME] for hourly_load in district_heating.demands.values()), 
+        axis=1, ignore_index=True
+    ).sum(1)
+    
+    fig = go.Figure()
+    
+    # Trace for True values (e.g., during heating season)
+    fig.add_trace(
+        go.Scatter(
+            x=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME][district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            y=demand[district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            mode="markers",
+            marker=dict(
+                size=8,
+                color="rgb(108, 150, 116)"  # Green color for heating season
+            ),
+            name="Heating Season"  
+        )
+    )
+    
+    # Trace for False values (e.g., outside heating season)
+    fig.add_trace(
+        go.Scatter(
+            x=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME][~district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            y=demand[~district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            mode="markers",
+            opacity=0.5,
+            marker=dict(
+                size=8,
+                color="rgb(13, 117, 194)"  # Blue color for not heating season
+            ),
+            name="Not during Heating Season"  
+        )
+    )
+    
+    # Layout and figure settings
+    fig.update_layout(
+        title="Temperature effect on demand",
+        yaxis_title='<b>Power demand (kW)</b>',
+        xaxis_title='<b>Outside temperature (°C)</b>',
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            xanchor="left",
+            y=-0.1,
+        ),
+        hovermode='x unified',
+    )
+    
     return fig
