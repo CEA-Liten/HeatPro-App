@@ -176,6 +176,11 @@ try:
                             )
     district_heating.fit()
     
+    with st.sidebar:
+        with meta_tabs[1]:
+            with meta_tabs_res[0]:
+                st.plotly_chart(plot_demand_vs_outside_temperature(district_heating),use_container_width=True)
+    
 except NameError:
     district_heating = None
 
@@ -203,7 +208,6 @@ with st.expander("Data",expanded=True):
             # st.write(district_heating.data[["heat_loss_thermal_energy_kWh"]].resample("MS").sum())
             st.markdown("you can export as a CSV file using button on top right of the table") 
             st.dataframe(ending_dataframe(district_heating,WATER_HEAT_CAPACITY))
-            st.write(plot_demand_vs_outside_temperature(district_heating))
     else:
         st.write("☔ External Factors not received")
         

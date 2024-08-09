@@ -103,9 +103,10 @@ def plot_demand_vs_outside_temperature(district_heating: DistrictHeatingLoad) ->
         go.Scatter(
             x=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME][district_heating.external_factors.data[HEATING_SEASON_NAME]],
             y=demand[district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            text=district_heating.external_factors.data.index,
             mode="markers",
             marker=dict(
-                size=8,
+                size=4,
                 color="rgb(108, 150, 116)"  # Green color for heating season
             ),
             name="Heating Season"  
@@ -117,13 +118,14 @@ def plot_demand_vs_outside_temperature(district_heating: DistrictHeatingLoad) ->
         go.Scatter(
             x=district_heating.external_factors.data[EXTERNAL_TEMPERATURE_NAME][~district_heating.external_factors.data[HEATING_SEASON_NAME]],
             y=demand[~district_heating.external_factors.data[HEATING_SEASON_NAME]],
+            text=district_heating.external_factors.data.index,
             mode="markers",
             opacity=0.5,
             marker=dict(
-                size=8,
+                size=4,
                 color="rgb(13, 117, 194)"  # Blue color for not heating season
             ),
-            name="Not during Heating Season"  
+            name="Non-Heating Season"  
         )
     )
     
@@ -136,7 +138,7 @@ def plot_demand_vs_outside_temperature(district_heating: DistrictHeatingLoad) ->
             orientation="h",
             yanchor="top",
             xanchor="left",
-            y=-0.1,
+            y=-0.25,
         ),
     )
     
