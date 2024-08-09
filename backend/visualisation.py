@@ -84,7 +84,6 @@ def plot_monotone(district_heating: DistrictHeatingLoad) -> go.Figure:
                         xanchor="left", 
                         y=-0.2,         
                             ),
-            layout_hovermode='x unified',
         )
     return fig
 
@@ -139,7 +138,6 @@ def plot_demand_vs_outside_temperature(district_heating: DistrictHeatingLoad) ->
             xanchor="left",
             y=-0.1,
         ),
-        hovermode='x unified',
     )
     
     return fig
